@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="5dp"
+    android:layout_marginBottom="1dp"
+    android:background="@color/blue_dark">
+
+    <ImageView
+        android:id="@+id/imgVw_group_expand_indicator"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="5dp"
+        android:src="@mipmap/ic_expand_more_grey600_48dp"/>
+
+    <TextView
+        android:id="@+id/txtVw_group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Title"
+        android:textSize="25sp"/>
+
+</LinearLayout>
