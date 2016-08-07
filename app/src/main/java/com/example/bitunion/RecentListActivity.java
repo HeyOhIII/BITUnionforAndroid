@@ -58,7 +58,7 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
         mRefreshLyt = (SwipeRefreshLayout) findViewById(R.id.lyt_refresh_frame);
         mRefreshLyt.setOnRefreshListener(this);
         int trigger = getResources().getDimensionPixelSize(R.dimen.swipe_trigger_limit);
-        mRefreshLyt.setOnTouchListener(new SwipeDetector(trigger, new MySwipeListener()));
+//        mRefreshLyt.setOnTouchListener(new SwipeDetector(trigger, new MySwipeListener()));
         mRecyclerView = (RecyclerView) findViewById(R.id.listview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecentListAdapter();
