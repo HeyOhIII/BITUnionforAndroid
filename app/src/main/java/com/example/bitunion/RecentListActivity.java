@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.bitunion.model.RecentThread;
+import com.example.bitunion.util.CommonIntents;
 import com.example.bitunion.widget.SwipeDetector;
 
 import org.json.JSONArray;
