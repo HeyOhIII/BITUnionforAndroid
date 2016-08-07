@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="2dp">
+
+    <RelativeLayout
+        android:id="@+id/lyt_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/thread_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(test) test title"
+            android:textColor="@color/blue_text"/>
+
+        <TextView
+            android:id="@+id/forum_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/thread_title"
+            android:text="灌水乐园"
+            android:textColor="@color/blue_text"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/thread_title"
+            android:text="login"
+            android:textColor="@color/blue_text"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+</FrameLayout>

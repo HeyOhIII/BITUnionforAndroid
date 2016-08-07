@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">BITUnion</string>
     <string name="login_title">北理FTP联盟</string>
+    <string name="title_recent_list">最新帖子</string>
+    <string name="menu_action_refresh">刷新</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
