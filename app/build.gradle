@@ -28,4 +28,5 @@ dependencies {
     compile files('src/main/java/advrecyclerview-0.8.5-sources.jar')
     compile files('libs/advrecyclerview-0.8.5-sources.jar')
     compile 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.5'
+    compile project(':library-1.0.19')
 }

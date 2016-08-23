@@ -87,10 +87,11 @@ public class ThreadActivity extends AppCompatActivity {
                 mThreadAdapter.notifyRefresh(currentpage);
                 return true;
             case R.id.action_reply:
-//                Intent intent = new Intent(this, NewthreadActivity.class);
-//                intent.putExtra(CommonIntents.EXTRA_ACTION, NewthreadActivity.ACTION_NEW_POST);
-//                intent.putExtra(CommonIntents.EXTRA_TID, threadId);
-//                startActivity(intent);
+                Intent intent = new Intent(this, NewthreadActivity.class);
+                intent.putExtra(CommonIntents.EXTRA_ACTION, NewthreadActivity.ACTION_NEW_POST);
+                intent.putExtra(CommonIntents.EXTRA_TID, threadId);
+//                intent.putExtra(CommonIntents.EXTRA_MESSAGE, mReplyET.getText().toString());
+                startActivity(intent);
                 return true;
         }
         return false;

@@ -5,6 +5,11 @@
     <string name="menu_action_refresh">刷新</string>
     <string name="menu_action_reply">回复</string>
     <string name="menu_action_post">发表</string>
+    <string name="message_sending">消息发送中...</string>
+
+    <string name="message_sent_fail">发送失败</string>
+    <string name="message_sent_success">发送成功</string>
+    <string name="network_unknown">网络异常</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
