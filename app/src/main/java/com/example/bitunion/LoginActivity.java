@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().setTitle("登录");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        getSupportActionBar().setTitle("登录");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         readConfig();
         mUsernameView = (EditText)findViewById(R.id.username);
