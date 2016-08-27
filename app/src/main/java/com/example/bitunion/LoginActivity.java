@@ -1,6 +1,7 @@
 package com.example.bitunion;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -103,6 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                         ToastUtil.showToast(R.string.login_success);
                         saveConfig();
                         setResult(RESULT_OK, null);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 }
