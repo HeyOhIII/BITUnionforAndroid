@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bitunion.model.BUForum;
+import com.example.bitunion.util.BUApi;
+import com.example.bitunion.util.CommonIntents;
+import com.example.bitunion.util.ToastUtil;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
@@ -159,28 +162,27 @@ public class ForumActivity extends AppCompatActivity {
                 holder.childTitle.setTextSize(20);
             holder.childTitle.setText(fArrayList.get(groupPosition).get(childPosition).getName());
             final BUForum forum = fArrayList.get(groupPosition).get(childPosition);
-//           holder.childTitle.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                @SuppressWarnings("NewApi")
-//                public void onClick(View v) {
-//                    if (BUApi.isUserLoggedin()) {
-//                        if (forum.getFid() == -1) {
-//                            Intent intent = new Intent(MainActivity.this, RecentListActivity.class);
-//                            startActivity(intent);
-//                        } else if (forum.getFid() == -2) {
-//                            // TODO 收藏夹
-//                            ToastUtil.showToast("功能暂时无法使用");
-//                        } else {
-//                            Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
-//                            intent.putExtra(CommonIntents.EXTRA_FID, forum.getFid());
-//                            intent.putExtra(CommonIntents.EXTRA_FORUM_NAME, forum.getName());
-//                            startActivity(intent);
-//                        }
-//                    } else
-//                        ToastUtil.showToast("请先登录");
-//                }
-//            });
+           holder.childTitle.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                @SuppressWarnings("NewApi")
+                public void onClick(View v) {
+                    if (BUApi.isUserLoggedin()) {
+                        if (forum.getFid() == -1) {
+                            Intent intent = new Intent(ForumActivity.this, RecentListActivity.class);
+                            startActivity(intent);
+                        } else if (forum.getFid() == -2) {
+                            ToastUtil.showToast("功能暂时无法使用");
+                        } else {
+                            Intent intent = new Intent(ForumActivity.this, DisplayActivity.class);
+                            intent.putExtra(CommonIntents.EXTRA_FID, forum.getFid());
+                            intent.putExtra(CommonIntents.EXTRA_FORUM_NAME, forum.getName());
+                            startActivity(intent);
+                        }
+                    } else
+                        ToastUtil.showToast("请先登录");
+                }
+            });
         }
 
         @Override

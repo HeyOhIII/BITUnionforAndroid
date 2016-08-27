@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "com.example.bitunion"
@@ -25,8 +25,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile files('src/main/java/advrecyclerview-0.8.5-sources.jar')
-    compile files('libs/advrecyclerview-0.8.5-sources.jar')
-    compile 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.5'
     compile project(':library-1.0.19')
+    //    compile(group: 'com.h6ah4i.android.widget.advrecyclerview', name: 'advrecyclerview', version: '0.9.3', ext: 'jar', classifier: 'sources')
+    compile('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.9.3@aar') {
+        transitive = true
+    }
+    compile files('libs/advrecyclerview-0.8.5-sources.jar')
 }

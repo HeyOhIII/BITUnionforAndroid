@@ -1,6 +1,5 @@
 package com.example.bitunion;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +14,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.example.bitunion.fragment.PostFragment;
-import com.example.bitunion.model.BUPost;
 import com.example.bitunion.util.CommonIntents;
-import com.example.bitunion.widget.SwipeDetector;
 
 /**
  * Created by huolangzc on 2016/8/7.
@@ -59,8 +56,6 @@ public class ThreadActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mThreadAdapter);
         mViewPager.addOnPageChangeListener(new MyOnPageChangeListener());
-        int trigger = getResources().getDimensionPixelSize(R.dimen.swipe_trigger_limit);
-       // mViewPager.setOnTouchListener(new SwipeDetector(trigger, new MySwipeListener()));
     }
 
     @Override
@@ -90,7 +85,6 @@ public class ThreadActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, NewthreadActivity.class);
                 intent.putExtra(CommonIntents.EXTRA_ACTION, NewthreadActivity.ACTION_NEW_POST);
                 intent.putExtra(CommonIntents.EXTRA_TID, threadId);
-//                intent.putExtra(CommonIntents.EXTRA_MESSAGE, mReplyET.getText().toString());
                 startActivity(intent);
                 return true;
         }
@@ -162,22 +156,6 @@ public class ThreadActivity extends AppCompatActivity {
                 frag.onRefresh();
         }
     }
-
-//    private long lastswipetime = 0;
-//
-//    private class MySwipeListener implements SwipeDetector.SwipeListener {
-//
-//        @Override
-//        public void onSwiped(int swipeAction) {
-//            if (swipeAction == SwipeDetector.SWIPE_RIGHT && currentpage == 0) {
-//                if ((System.currentTimeMillis() - lastswipetime) >= Utils.EXIT_WAIT_TIME) {
-//                    ToastUtil.showToast(R.string.swipe_right_go_back);
-//                    lastswipetime = System.currentTimeMillis();
-//                } else
-//                    finish();
-//            }
-//        }
-//    }
 
     private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 

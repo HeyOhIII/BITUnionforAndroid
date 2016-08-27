@@ -11,6 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.example.bitunion.util.BUApi;
+import com.example.bitunion.util.Constants;
+import com.example.bitunion.util.ToastUtil;
+
+import org.json.JSONObject;
+
 /**
  * Created by huolangzc on 2016/7/18.
  */
@@ -31,9 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //actionBar = getActionBar();
-        // actionBar.hide();
+        getSupportActionBar().setTitle("登录");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        readConfig();
         mUsernameView = (EditText)findViewById(R.id.username);
         mPasswordView = (EditText)findViewById(R.id.password);
 
@@ -42,9 +51,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i == R.id.radio_in){
-                    //选择校内网
+                    BUApp.settings.netType = Constants.BITNET;
                 }else if(i == R.id.radio_out){
-                    //选择外网
+                    BUApp.settings.netType = Constants.OUTNET;
                 }
             }
         });
@@ -87,10 +96,22 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         }else{
             showProgress(true);
+            BUApi.tryLogin(mUsername, mPassword, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (BUApi.getResult(response) == BUApi.Result.SUCCESS) {
+                        ToastUtil.showToast(R.string.login_success);
+                        saveConfig();
+                        setResult(RESULT_OK, null);
+                        finish();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            //请求登录
-
-
+                }
+            });
         }
 
     }
@@ -104,6 +125,15 @@ public class LoginActivity extends AppCompatActivity {
         }else if(!show && progressDialog.isShowing()){
             progressDialog.dismiss();
         }
+    }
 
+    public void saveConfig() {
+        BUApp.settings.readPreference(this);
+        BUApi.saveUser(this);
+    }
+
+    public void readConfig() {
+        BUApp.settings.readPreference(this);
+        BUApi.init(this);
     }
 }

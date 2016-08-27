@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.example.bitunion.fragment.ForumFragment;
 import com.example.bitunion.util.CommonIntents;
-import com.example.bitunion.widget.SwipeDetector;
 
 /**
  * Created by huolangzc on 2016/8/7.
@@ -54,7 +53,6 @@ public class DisplayActivity extends AppCompatActivity{
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.addOnAdapterChangeListener((ViewPager.OnAdapterChangeListener) new MyOnPageChangeListener());
-//        mViewPager.setOnTouchListener(new SwipeDetector(trigger, new MySwipeListener()));
     }
 
     @Override
@@ -80,11 +78,11 @@ public class DisplayActivity extends AppCompatActivity{
                 mPagerAdapter.notifyRefresh(currentpage);
                 break;
             case R.id.action_newthread:
-//                Intent intent = new Intent(DisplayActivity.this, NewthreadActivity.class);
-//                intent.putExtra(CommonIntents.EXTRA_ACTION, NewthreadActivity.ACTION_NEW_THREAD);
-//                intent.putExtra(CommonIntents.EXTRA_FORUM_NAME, forumName);
-//                intent.putExtra(CommonIntents.EXTRA_FID, forumId);
-//                startActivity(intent);
+                Intent intent = new Intent(DisplayActivity.this, NewthreadActivity.class);
+                intent.putExtra(CommonIntents.EXTRA_ACTION, NewthreadActivity.ACTION_NEW_THREAD);
+                intent.putExtra(CommonIntents.EXTRA_FORUM_NAME, forumName);
+                intent.putExtra(CommonIntents.EXTRA_FID, forumId);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -171,20 +169,4 @@ public class DisplayActivity extends AppCompatActivity{
 
         }
     }
-
-    private long lastswipetime = 0;
-//    private class MySwipeListener implements SwipeDetector.SwipeListener {
-//
-//        @Override
-//        public void onSwiped(int swipeAction) {
-//            if (swipeAction == SwipeDetector.SWIPE_RIGHT && currentpage == 0) {
-//                if ((System.currentTimeMillis() - lastswipetime) >= Utils.EXIT_WAIT_TIME) {
-//                    ToastUtil.showToast(R.string.swipe_right_go_back);
-//                    lastswipetime = System.currentTimeMillis();
-//                } else
-//                    finish();
-//            }
-//        }
-//    }
-
 }

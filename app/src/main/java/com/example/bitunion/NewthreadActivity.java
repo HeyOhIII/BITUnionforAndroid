@@ -19,6 +19,8 @@ import org.json.JSONObject;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import java.io.File;
+
 /**
  * Created by huolangzc on 2016/8/23.
  */
@@ -34,6 +36,7 @@ public class NewthreadActivity extends AppCompatActivity implements TextWatcher{
     private String title;
     private String action;
     private int fid,tid;
+    private File mAttachFile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class NewthreadActivity extends AppCompatActivity implements TextWatcher{
 //            message += getString(R.string.buapp_client_postfix).replace("$device_name", Devices.getDeviceName());
         mSendIc.setEnabled(false);
         ToastUtil.showToast(R.string.message_sending);
-//        BUApi.postNewThread(fid, subject, message, mAttachFile, this, mResponseListener, mErrorListener);
+        BUApi.postNewThread(fid, subject, message, mAttachFile, mResponseListener, mErrorListener);
     }
 
     private void sendMessage(String message) {
@@ -102,7 +105,7 @@ public class NewthreadActivity extends AppCompatActivity implements TextWatcher{
 //            message += getString(R.string.buapp_client_postfix).replace("$device_name", Devices.getDeviceName());
         mSendIc.setEnabled(false);
         ToastUtil.showToast(R.string.message_sending);
-//        BUApi.postNewPost(tid, message, mAttachFile, this, mResponseListener, mErrorListener);
+        BUApi.postNewPost(tid, message, mAttachFile, mResponseListener, mErrorListener);
     }
 
     @Override

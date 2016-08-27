@@ -61,6 +61,8 @@
         <item>联盟公告板</item>
         <item>联盟意见箱</item>
         <item>新手交流区</item>
+        <item>后台管理区</item>
+        <item>-- 测试专用版面</item>
 
         <!-- 其他功能 -->
         <item>最新帖子</item>
@@ -118,6 +120,8 @@
         <item>3</item>
         <item>4</item>
         <item>92</item>
+        <item>170</item>
+        <item>177</item>
 
         <!-- 其他功能 -->
         <item>-1</item>
@@ -171,6 +175,8 @@
         <item>2</item>
 
         <!-- 系统管理 -->
+        <item>0</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>

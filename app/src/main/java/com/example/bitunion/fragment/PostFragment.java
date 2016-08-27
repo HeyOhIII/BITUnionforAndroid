@@ -17,11 +17,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.example.bitunion.BUApp;
 import com.example.bitunion.R;
 import com.example.bitunion.model.BUPost;
+import com.example.bitunion.model.BUThread;
+import com.example.bitunion.util.BUApi;
 import com.example.bitunion.util.CommonIntents;
+import com.example.bitunion.util.DataParser;
 import com.example.bitunion.util.Updateable;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,33 +114,33 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
         final ArrayList<BUPost> posts = new ArrayList<>(40);
         while(from < to){
             mReqCount++;
-//            BUApi.readThreads(mTid, from, from + 20, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    mReqCount--;
-//                    if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
-//                        Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        ArrayList<BUThread> tempList = DataParser.parsePostlist(response);
-//                        if (tempList != null)
-//                            posts.addAll(tempList);
-//                    }
-//                    if (!isUpdating()) {
-//                        postlist = posts;
-//                        notifyUpdated();
-//                    }
-//                }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    if (!isAdded() && isDetached())
-//                        return;
-//                    mReqCount--;
-//                    notifyUpdated();
-//                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//            from += 20;
+            BUApi.readThreads(mTid, from, from + 20, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    mReqCount--;
+                    if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
+                        Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        ArrayList<BUPost> tempList = DataParser.parsePostlist(response);
+                        if (tempList != null)
+                            posts.addAll(tempList);
+                    }
+                    if (!isUpdating()) {
+                        postlist = posts;
+                        notifyUpdated();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (!isAdded() && isDetached())
+                        return;
+                    mReqCount--;
+                    notifyUpdated();
+                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
+                }
+            });
+            from += 20;
         }
 
     }

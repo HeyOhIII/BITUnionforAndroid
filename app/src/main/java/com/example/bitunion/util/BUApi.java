@@ -473,6 +473,14 @@ public class BUApi {
         editor.apply();
     }
 
+    public static String getImageAbsoluteUrl(String shortUrl) {
+        String path;
+        path = shortUrl;
+        path = path.replaceAll("(http://)?(www|v6|kiss|out).bitunion.org", rooturl);
+        path = path.replaceAll("^images/", rooturl + "/images/");
+        path = path.replaceAll("^attachments/", rooturl + "/attachments/");
+        return path;
+    }
     public static String getRootUrl() {
         return rooturl;
     }

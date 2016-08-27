@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.bitunion.model.RecentThread;
+import com.example.bitunion.util.BUApi;
 import com.example.bitunion.util.CommonIntents;
-import com.example.bitunion.widget.SwipeDetector;
+import com.example.bitunion.util.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +40,6 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
     private RecentListAdapter mAdapter;
 
     private List<RecentThread> mThreadList;
-//    private SparseBooleanArray mExpandTable;
 
 
     @Override
@@ -50,7 +51,6 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
 
         } else {
             mThreadList = new ArrayList<RecentThread>();
-//            mExpandTable = new SparseBooleanArray();
         }
 
         getSupportActionBar().setTitle(R.string.title_recent_list);
@@ -58,8 +58,6 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mRefreshLyt = (SwipeRefreshLayout) findViewById(R.id.lyt_refresh_frame);
         mRefreshLyt.setOnRefreshListener(this);
-        int trigger = getResources().getDimensionPixelSize(R.dimen.swipe_trigger_limit);
-//        mRefreshLyt.setOnTouchListener(new SwipeDetector(trigger, new MySwipeListener()));
         mRecyclerView = (RecyclerView) findViewById(R.id.listview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecentListAdapter();
@@ -68,10 +66,6 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
 
         showLoading(true);
         onRefresh();
-
-
-
-
     }
 
     private void showLoading(boolean loading){
@@ -82,33 +76,32 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
     @Override
     public void onRefresh() {
         mRefreshLyt.setRefreshing(true);
-//        BUApi.readHomeThreads(new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
-//                    ToastUtil.showToast(response.toString());
-//                } else {
-//                    JSONArray newlist = response.optJSONArray("newlist");
-//                    for (int i = 0; i < newlist.length(); i++)
-//                        try {
-//                            mThreadList.add(new RecentThread(newlist.getJSONObject(i)));
-//                            mExpandTable.put(i, false);
-//                        } catch (JSONException e) {
-//                            continue;
-//                        }
-//                }
-//                mAdapter.notifyDataSetChanged();
-//                showLoading(false);
-//                mRefreshLyt.setRefreshing(false);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                ToastUtil.showToast(R.string.network_unknown);
-//                showLoading(false);
-//                mRefreshLyt.setRefreshing(false);
-//            }
-//        });
+        BUApi.readHomeThreads(new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
+                    ToastUtil.showToast(response.toString());
+                } else {
+                    JSONArray newlist = response.optJSONArray("newlist");
+                    for (int i = 0; i < newlist.length(); i++)
+                        try {
+                            mThreadList.add(new RecentThread(newlist.getJSONObject(i)));
+                        } catch (JSONException e) {
+                            continue;
+                        }
+                }
+                mAdapter.notifyDataSetChanged();
+                showLoading(false);
+                mRefreshLyt.setRefreshing(false);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ToastUtil.showToast(R.string.network_unknown);
+                showLoading(false);
+                mRefreshLyt.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -129,20 +122,6 @@ public class RecentListActivity extends AppCompatActivity implements SwipeRefres
         }
         return true;
     }
-
-//    private class MySwipeListener implements SwipeDetector.SwipeListener {
-//
-//        @Override
-//        public void onSwiped(int swipeAction) {
-//            if (swipeAction == SwipeDetector.SWIPE_RIGHT) {
-//                if ((System.currentTimeMillis() - lastswipetime) >= Utils.EXIT_WAIT_TIME) {
-//                    ToastUtil.showToast(R.string.swipe_right_go_back);
-//                    lastswipetime = System.currentTimeMillis();
-//                } else
-//                    finish();
-//            }
-//        }
-//    }
 
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         private int totalY;

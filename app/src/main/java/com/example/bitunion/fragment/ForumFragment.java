@@ -20,10 +20,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.example.bitunion.BUApp;
 import com.example.bitunion.R;
 import com.example.bitunion.ThreadActivity;
 import com.example.bitunion.model.BUThread;
+import com.example.bitunion.util.BUApi;
 import com.example.bitunion.util.CommonIntents;
+import com.example.bitunion.util.DataParser;
 import com.example.bitunion.util.Updateable;
 
 import org.json.JSONObject;
@@ -108,33 +113,33 @@ public class ForumFragment extends Fragment implements Updateable, AbsListView.O
         final ArrayList<BUThread> threads = new ArrayList<>(40);
         while(from < to){
             mReqCount++;
-//            BUApi.readThreads(mFid, from, from + 20, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    mReqCount--;
-//                    if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
-//                        Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        ArrayList<BUThread> tempList = DataParser.parseThreadlist(response);
-//                        if (tempList != null)
-//                            threads.addAll(tempList);
-//                    }
-//                    if (!isUpdating()) {
-//                        threadlist = threads;
-//                        notifyUpdated();
-//                    }
-//                }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    if (!isAdded() && isDetached())
-//                        return;
-//                    mReqCount--;
-//                    notifyUpdated();
-//                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//            from += 20;
+            BUApi.readThreads(mFid, from, from + 20, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    mReqCount--;
+                    if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
+                        Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        ArrayList<BUThread> tempList = DataParser.parseThreadlist(response);
+                        if (tempList != null)
+                            threads.addAll(tempList);
+                    }
+                    if (!isUpdating()) {
+                        threadlist = threads;
+                        notifyUpdated();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (!isAdded() && isDetached())
+                        return;
+                    mReqCount--;
+                    notifyUpdated();
+                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
+                }
+            });
+            from += 20;
         }
     }
 
@@ -196,13 +201,13 @@ public class ForumFragment extends Fragment implements Updateable, AbsListView.O
                 view.setBackgroundResource(R.drawable.ripple_text_bg_dark);
             final BUThread threadItem = threadlist.get(position);
             subjView.setText(threadItem.getSubject());
-            //subjView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize);
+            subjView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize);
             authorView.setText(threadItem.getAuthor());
-           // authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
+            authorView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
             repliesView.setText(threadItem.getRepliesDisplay());
-            //repliesView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
+            repliesView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
             viewsView.setText(threadItem.getViewsDisplay());
-           // viewsView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
+            viewsView.setTextSize(TypedValue.COMPLEX_UNIT_SP, BUApp.settings.titletextsize - 2);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

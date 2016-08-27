@@ -21,7 +21,9 @@ import android.os.Parcelable;
 import android.text.Html;
 import android.util.Log;
 
+import com.example.bitunion.BUApp;
 import com.example.bitunion.util.BUApi;
+import com.example.bitunion.util.Utils;
 
 
 public class BUPost implements Parcelable {
@@ -344,7 +346,7 @@ public class BUPost implements Parcelable {
      * @param count position in the list
      * @return HTML text for layout
      */
-    @Override
+
     public String getHtmlLayout(int count) {
         String htmlcontent;
         htmlcontent = "<p><div class='tdiv'>" +
