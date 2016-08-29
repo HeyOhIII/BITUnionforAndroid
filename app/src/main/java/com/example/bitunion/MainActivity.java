@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         View headerView = navigationView.getHeaderView(0);
         ImageButton headImg = (ImageButton) headerView.findViewById(R.id.imageButton);
         TextView userName = (TextView) headerView.findViewById(R.id.username);
@@ -86,6 +87,12 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences config = getSharedPreferences("config", Context.MODE_PRIVATE);
         userName.setText(config.getString("username", null));
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getFragmentManager().putFragment(outState, "mFragment", mFragment);
     }
 
     @Override
