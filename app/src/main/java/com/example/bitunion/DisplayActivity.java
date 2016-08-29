@@ -52,7 +52,7 @@ public class DisplayActivity extends AppCompatActivity{
         mPagerAdapter = new ThreadPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnAdapterChangeListener((ViewPager.OnAdapterChangeListener) new MyOnPageChangeListener());
+        mViewPager.addOnPageChangeListener(new MyOnPageChangeListener());
     }
 
     @Override

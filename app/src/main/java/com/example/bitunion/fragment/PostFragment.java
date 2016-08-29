@@ -28,7 +28,9 @@ import com.example.bitunion.model.BUThread;
 import com.example.bitunion.util.BUApi;
 import com.example.bitunion.util.CommonIntents;
 import com.example.bitunion.util.DataParser;
+import com.example.bitunion.util.ToastUtil;
 import com.example.bitunion.util.Updateable;
+import com.example.bitunion.util.Utils;
 
 import org.json.JSONObject;
 
@@ -53,6 +55,19 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     private int mPageNum, mTid;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mPageNum = savedInstanceState.getInt("page");
+            mTid = savedInstanceState.getInt("tid");
+        } else {
+            mPageNum = getArguments().getInt(ARG_PAGE);
+            mTid = getArguments().getInt(ARG_TID);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("page", mPageNum);
@@ -66,16 +81,8 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if(savedInstanceState != null){
-            mPageNum = savedInstanceState.getInt("page");
-            mTid = savedInstanceState.getInt("tid");
-        }else {
-            mPageNum = getArguments().getInt(ARG_PAGE);
-            mTid = getArguments().getInt(ARG_TID);
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.lyt_post_refresh);
         mRefreshLayout.setOnRefreshListener(this);
@@ -114,12 +121,13 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
         final ArrayList<BUPost> posts = new ArrayList<>(40);
         while(from < to){
             mReqCount++;
-            BUApi.readThreads(mTid, from, from + 20, new Response.Listener<JSONObject>() {
+            BUApi.readPostList(mTid, from, from + 20, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     mReqCount--;
                     if (BUApi.getResult(response) != BUApi.Result.SUCCESS) {
-                        Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(BUApp.getInstance(), response.toString(), Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(response.toString());
                     } else {
                         ArrayList<BUPost> tempList = DataParser.parsePostlist(response);
                         if (tempList != null)
