@@ -29,6 +29,6 @@ public class ToastUtil {
             toast.setText(res);
             toast.show();
         }
-        Log.i("Toast", BUApp.getInstance().getString(res));
+       // Log.i("Toast", BUApp.getInstance().getString(res));
     }
 }

@@ -61,10 +61,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        mRefreshLyt = (SwipeRefreshLayout) view.findViewById(R.id.lyt_refresh_frame);
+        mRefreshLyt = (SwipeRefreshLayout) view.findViewById(R.id.lyt_refresh_fragmenthome);
         mRefreshLyt.setOnRefreshListener(this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.listview);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new HomeFragmentAdapter();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnScrollListener(mScrollListener);
@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                         try {
                             mThreadList.add(new RecentThread(newlist.getJSONObject(i)));
                         } catch (JSONException e) {
-                            continue;
+                            e.printStackTrace();
                         }
                 }
                 mAdapter.notifyDataSetChanged();

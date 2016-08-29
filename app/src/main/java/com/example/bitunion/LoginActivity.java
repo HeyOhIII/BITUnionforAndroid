@@ -101,11 +101,13 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     if (BUApi.getResult(response) == BUApi.Result.SUCCESS) {
-                        ToastUtil.showToast(R.string.login_success);
+                        //ToastUtil.showToast(R.string.login_success);
+                        ToastUtil.showToast("登录成功");
                         saveConfig();
                         setResult(RESULT_OK, null);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        showProgress(false);
                         finish();
                     }
                 }
@@ -131,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void saveConfig() {
-        BUApp.settings.readPreference(this);
+        BUApp.settings.writePreference(this);
         BUApi.saveUser(this);
     }
 
