@@ -49,6 +49,7 @@ public class ThreadActivity extends AppCompatActivity {
         calculateTotalPage();
 
         getSupportActionBar().setTitle(String.format("%s %d", threadName, currentpage+1));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mThreadAdapter = new ThreadPagerAdapter(getSupportFragmentManager());
@@ -173,4 +174,5 @@ public class ThreadActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(String.format("%s %d", threadName, currentpage+1));
         }
     }
+
 }

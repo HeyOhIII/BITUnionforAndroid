@@ -36,7 +36,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        // Show the Up button in the action bar.
+
+        getSupportActionBar().setTitle("设置");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         float dpi = getResources().getDisplayMetrics().densityDpi;

@@ -47,7 +47,6 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
 
     private SwipeRefreshLayout mRefreshLayout;
     private ArrayList<BUPost> postlist = new ArrayList<BUPost>(40);;
-    private TextView titleView;
     private ListView listView;
     private PostsAdapter mAdapter;
 
@@ -86,8 +85,6 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
 
         mRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.lyt_post_refresh);
         mRefreshLayout.setOnRefreshListener(this);
-//        titleView = (TextView) getActivity().findViewById(R.id.titleView);
-//        titleView.setText(getArguments().getString("subject"));
         listView = (ListView) getActivity().findViewById(R.id.list);
         mAdapter = new PostsAdapter(getActivity(),R.layout.post_item);
         listView.setAdapter(mAdapter);

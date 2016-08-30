@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("首页");
 //        setSupportActionBar(toolbar);
 //        final ActionBar ab = getSupportActionBar();
 //        ab.setHomeAsUpIndicator(R.mipmap.ic_menu);
