@@ -349,12 +349,15 @@ public class BUPost implements Parcelable {
 
     public String getHtmlLayout(int count) {
         String htmlcontent;
-        htmlcontent = "<p><div class='tdiv'>" +
-                "<table width='100%'><tr><td>#" + count + "&nbsp;<span onclick=authorOnClick(" + authorid + ")>" + getAuthor() +
-                "</span>&nbsp;&nbsp;&nbsp;<span onclick=referenceOnClick(" + count + ")><u>引用</u></span></td>" +
-                "<td style='text-align:right;'>" + getDateline() + "</td></tr></table>" +
-                "</div>" +
-                "<div class='mdiv' width='100%'>" +
+//        htmlcontent = "<p><div class='tdiv'>" +
+//                "<table width='100%'><tr><td>#" + count + "&nbsp;<span onclick=authorOnClick(" + authorid + ")>" + getAuthor() +
+//                "</span>&nbsp;&nbsp;&nbsp;<span onclick=referenceOnClick(" + count + ")><u>引用</u></span></td>" +
+//                "<td style='text-align:right;'>" + getDateline() + "</td></tr></table>" +
+//                "</div>" +
+//                "<div class='mdiv' width='100%'>" +
+//                getMessage() + "</div></p>";
+
+        htmlcontent = "<p><div class='mdiv' width='100%'>" +
                 getMessage() + "</div></p>";
         return htmlcontent;
     }

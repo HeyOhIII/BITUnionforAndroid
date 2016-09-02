@@ -2,12 +2,17 @@ package com.example.bitunion.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +38,9 @@ import com.example.bitunion.util.Updateable;
 import com.example.bitunion.util.Utils;
 
 import org.json.JSONObject;
+import org.xml.sax.XMLReader;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +57,9 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     private ListView listView;
     private PostsAdapter mAdapter;
 
+    private static String COLOR_BG_DARK;
+    private static String COLOR_BG_LIGHT;
+
     private int mReqCount = 0;
     private int mPageNum, mTid;
 
@@ -64,6 +74,10 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
             mPageNum = getArguments().getInt(ARG_PAGE);
             mTid = getArguments().getInt(ARG_TID);
         }
+
+        Resources res = getResources();
+        COLOR_BG_DARK = Integer.toHexString(res.getColor(R.color.blue_light) & 0x00ffffff);
+        COLOR_BG_LIGHT = Integer.toHexString(res.getColor(R.color.blue_text_bg_light) & 0x00ffffff);
     }
 
     @Override
@@ -195,9 +209,44 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
             final BUPost postItem = postlist.get(position);
             authorText.setText(postItem.getAuthor());
             timeText.setText(postItem.getDateline());
-            messageView.setText(postItem.getMessage());
-            quotesView.setText(postItem.toQuote());
+//            messageView.setText(postItem.getMessage());
+//            quotesView.setText(postItem.toQuote());
+
+            String htmlcode = createHtmlCode(position);
+            messageView.setText(Html.fromHtml(htmlcode, new Html.ImageGetter() {
+                @Override
+                public Drawable getDrawable(String s) {
+                    Drawable drawable = null;
+                    URL url;
+                    try {
+                        url = new URL(s);
+                        drawable = Drawable.createFromStream(url.openStream(), "");  //获取网路图片
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
+                            .getIntrinsicHeight());
+                    return drawable;
+                }
+            }, new Html.TagHandler() {
+                @Override
+                public void handleTag(boolean b, String s, Editable editable, XMLReader xmlReader) {
+
+                }
+            }));
+
             return view;
         }
     }
+
+    private String createHtmlCode(int position) {
+
+        StringBuilder content = new StringBuilder("<!DOCTYPE ><html><body>");
+
+        BUPost postItem = postlist.get(position);
+        content.append(postItem.getHtmlLayout(position));
+        content.append("</body></html>");
+        return content.toString();
+    }
+
 }
