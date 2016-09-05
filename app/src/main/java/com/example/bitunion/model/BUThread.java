@@ -127,4 +127,8 @@ public class BUThread extends BUContent{
         } else
             return Integer.toString(replies);
     }
+
+    public int getReplies() {
+       return replies;
+    }
 }

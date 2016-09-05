@@ -7,7 +7,7 @@
     tools:context=".ThreadActivity">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/viewpager_thread"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/blue_text_bg_light">

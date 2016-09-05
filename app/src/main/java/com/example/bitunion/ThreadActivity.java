@@ -46,7 +46,8 @@ public class ThreadActivity extends AppCompatActivity {
             replies = savedInstanceState.getInt("replies");
         }
 
-        calculateTotalPage();
+        totalPage = 3;
+//        calculateTotalPage();
 
         getSupportActionBar().setTitle(String.format("%s %d", threadName, currentpage+1));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,7 +55,7 @@ public class ThreadActivity extends AppCompatActivity {
 
         mThreadAdapter = new ThreadPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager_thread);
         mViewPager.setAdapter(mThreadAdapter);
         mViewPager.addOnPageChangeListener(new MyOnPageChangeListener());
     }
@@ -92,33 +93,51 @@ public class ThreadActivity extends AppCompatActivity {
         return false;
     }
 
-    private void calculateTotalPage() {
-        if (replies % 40 == 0)
-            lastpage = replies / 40 - 1;
-        else
-            lastpage = replies / 40;
-        while (totalPage <= lastpage)
-            totalPage++;
-        if (mThreadAdapter != null)
-            mThreadAdapter.notifyDataSetChanged();
-    }
+//    private void calculateTotalPage() {
+//        if (replies % 40 == 0)
+//            lastpage = replies / 40 - 1;
+//        else
+//            lastpage = replies / 40;
+//        while (totalPage <= lastpage)
+//            totalPage++;
+//        if (mThreadAdapter != null)
+//            mThreadAdapter.notifyDataSetChanged();
+//    }
 
     public class ThreadPagerAdapter extends FragmentStatePagerAdapter {
 
-        private SparseArray<PostFragment> registeredFragments = new SparseArray<PostFragment>();
+        private SparseArray<PostFragment> registeredFragments = new SparseArray<>();
 
         public ThreadPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            PostFragment fragment = (PostFragment) super.instantiateItem(
+                    container, position);
+            registeredFragments.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
         public Fragment getItem(int position) {
+//            PostFragment frag = registeredFragments.get(position);
+//            if (frag == null) {
+//                frag = new PostFragment();
+//                Bundle args = new Bundle();
+//                args.putInt(PostFragment.ARG_TID, threadId);
+//                args.putInt(PostFragment.ARG_PAGE, position);
+//                frag.setArguments(args);
+//                registeredFragments.put(position, frag);
+            Bundle args = new Bundle();
+            if(position < totalPage){
+                args.putInt(PostFragment.ARG_PAGE, position);
+                args.putInt(PostFragment.ARG_TID, threadId);
+            }
             PostFragment frag = registeredFragments.get(position);
             if (frag == null) {
                 frag = new PostFragment();
-                Bundle args = new Bundle();
-                args.putInt(PostFragment.ARG_TID, threadId);
-                args.putInt(PostFragment.ARG_PAGE, position);
                 frag.setArguments(args);
                 registeredFragments.put(position, frag);
             } else if (!frag.isUpdating()){
@@ -135,14 +154,6 @@ public class ThreadActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return Integer.toString(position + 1);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            PostFragment fragment = (PostFragment) super.instantiateItem(
-                    container, position);
-            registeredFragments.put(position, fragment);
-            return fragment;
         }
 
         @Override
@@ -172,6 +183,14 @@ public class ThreadActivity extends AppCompatActivity {
         public void onPageSelected(int pos) {
             currentpage = pos;
             getSupportActionBar().setTitle(String.format("%s %d", threadName, currentpage+1));
+//            boolean added = false;
+//            while (totalPage - pos < 2) {
+//                totalPage++;
+//                added = true;
+//            }
+//            if (added) {
+//                mThreadAdapter.notifyDataSetChanged();
+//            }
         }
     }
 

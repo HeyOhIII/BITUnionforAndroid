@@ -53,12 +53,10 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     public static final String ARG_TID = "tid";
 
     private SwipeRefreshLayout mRefreshLayout;
-    private ArrayList<BUPost> postlist = new ArrayList<BUPost>(40);;
+    private ArrayList<BUPost> postlist = new ArrayList<>(40);;
     private ListView listView;
     private PostsAdapter mAdapter;
-
-    private static String COLOR_BG_DARK;
-    private static String COLOR_BG_LIGHT;
+//    private View view;
 
     private int mReqCount = 0;
     private int mPageNum, mTid;
@@ -75,9 +73,6 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
             mTid = getArguments().getInt(ARG_TID);
         }
 
-        Resources res = getResources();
-        COLOR_BG_DARK = Integer.toHexString(res.getColor(R.color.blue_light) & 0x00ffffff);
-        COLOR_BG_LIGHT = Integer.toHexString(res.getColor(R.color.blue_text_bg_light) & 0x00ffffff);
     }
 
     @Override
@@ -90,6 +85,15 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        if ( view != null) {
+//            ViewGroup parent = (ViewGroup) view.getParent();
+//            if (parent != null) {
+//                parent.removeView(view);
+//            }
+//            return view;
+//        }
+//        view = inflater.inflate(R.layout.fragment_post, container, false);
+//        return view;
         return inflater.inflate(R.layout.fragment_post, container, false);
     }
 
@@ -97,9 +101,11 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.lyt_post_refresh);
+        //此处将getActivity()修改为view,修复了ViewPager中页面显示空白的bug.
+
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.lyt_post_refresh);
         mRefreshLayout.setOnRefreshListener(this);
-        listView = (ListView) getActivity().findViewById(R.id.list);
+        listView = (ListView) view.findViewById(R.id.list);
         mAdapter = new PostsAdapter(getActivity(),R.layout.post_item);
         listView.setAdapter(mAdapter);
         listView.setOnScrollListener(this);
@@ -156,7 +162,7 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
                         return;
                     mReqCount--;
                     notifyUpdated();
-                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(BUApp.getInstance(), R.string.network_unknown, Toast.LENGTH_SHORT).show();
                 }
             });
             from += 20;

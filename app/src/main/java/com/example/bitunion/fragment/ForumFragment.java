@@ -215,7 +215,7 @@ public class ForumFragment extends Fragment implements Updateable, AbsListView.O
                     Intent intent = new Intent(getActivity(), ThreadActivity.class);
                     intent.putExtra(CommonIntents.EXTRA_TID, threadItem.getTid());
                     intent.putExtra(CommonIntents.EXTRA_THREAD_NAME, threadItem.getSubject());
-                    intent.putExtra(CommonIntents.EXTRA_REPLIES, threadItem.getRepliesDisplay()+1);
+                    intent.putExtra(CommonIntents.EXTRA_REPLIES, threadItem.getReplies()+1);
                     startActivity(intent);
                 }
             });
