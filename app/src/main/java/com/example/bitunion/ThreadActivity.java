@@ -47,7 +47,7 @@ public class ThreadActivity extends AppCompatActivity {
         }
 
         totalPage = 3;
-//        calculateTotalPage();
+        calculateTotalPage();
 
         getSupportActionBar().setTitle(String.format("%s %d", threadName, currentpage+1));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,16 +93,16 @@ public class ThreadActivity extends AppCompatActivity {
         return false;
     }
 
-//    private void calculateTotalPage() {
-//        if (replies % 40 == 0)
-//            lastpage = replies / 40 - 1;
-//        else
-//            lastpage = replies / 40;
-//        while (totalPage <= lastpage)
-//            totalPage++;
-//        if (mThreadAdapter != null)
-//            mThreadAdapter.notifyDataSetChanged();
-//    }
+    private void calculateTotalPage() {
+        if (replies % 40 == 0)
+            lastpage = replies / 40 - 1;
+        else
+            lastpage = replies / 40;
+        while (totalPage <= lastpage)
+            totalPage++;
+        if (mThreadAdapter != null)
+            mThreadAdapter.notifyDataSetChanged();
+    }
 
     public class ThreadPagerAdapter extends FragmentStatePagerAdapter {
 

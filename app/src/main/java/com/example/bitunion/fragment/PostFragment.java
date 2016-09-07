@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -203,7 +205,7 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, null);
             TextView authorText = (TextView) view.findViewById(R.id.authorText);
             TextView timeText = (TextView) view.findViewById(R.id.timeText);
-            TextView messageView = (TextView) view.findViewById(R.id.messageView);
+            final TextView messageView = (TextView) view.findViewById(R.id.messageView);
             ImageView attachmentView = (ImageView) view.findViewById(R.id.attachmentView);
             TextView quotesView = (TextView) view.findViewById(R.id.quotesView);
 
@@ -218,28 +220,64 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
 //            messageView.setText(postItem.getMessage());
 //            quotesView.setText(postItem.toQuote());
 
-            String htmlcode = createHtmlCode(position);
-            messageView.setText(Html.fromHtml(htmlcode, new Html.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String s) {
-                    Drawable drawable = null;
-                    URL url;
-                    try {
-                        url = new URL(s);
-                        drawable = Drawable.createFromStream(url.openStream(), "");  //获取网路图片
-                    } catch (Exception e) {
-                        return null;
-                    }
-                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
-                            .getIntrinsicHeight());
-                    return drawable;
-                }
-            }, new Html.TagHandler() {
-                @Override
-                public void handleTag(boolean b, String s, Editable editable, XMLReader xmlReader) {
+            final String htmlcode = createHtmlCode(position);
+//            messageView.setText(Html.fromHtml(htmlcode, new Html.ImageGetter() {
+//                @Override
+//                public Drawable getDrawable(String s) {
+//                    Drawable drawable = null;
+//                    URL url;
+//                    try {
+//                        url = new URL(s);
+//                        drawable = Drawable.createFromStream(url.openStream(), "");  //获取网路图片
+//                    } catch (Exception e) {
+//                        return null;
+//                    }
+//                    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable
+//                            .getIntrinsicHeight());
+//                    return drawable;
+//                }
+//            }, new Html.TagHandler() {
+//                @Override
+//                public void handleTag(boolean b, String s, Editable editable, XMLReader xmlReader) {
+//
+//                }
+//            }));
 
+            /*
+            使用异步消息处理机制，对网络图片进行显示（若主线程中进行网络请求会导致异常，图片显示为小方框）
+             */
+             final Handler handler = new Handler(){
+                public void handleMessage(Message msg){
+                    if(msg.what == 1){
+                        messageView.setText((CharSequence) msg.obj);
+                    }
                 }
-            }));
+            };
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Message message = new Message();
+                    CharSequence result = Html.fromHtml(htmlcode, new Html.ImageGetter() {
+                        @Override
+                        public Drawable getDrawable(String s) {
+                            Drawable drawable = null;
+                            URL url;
+                            try {
+                                url = new URL(s);
+                                drawable = Drawable.createFromStream(url.openStream(), "");  //获取网路图片
+                            } catch (Exception e) {
+                            return null;
+                            }
+                            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                            return drawable;
+                        }
+                     }, null);
+                    message.what = 1;
+                    message.obj = result;
+                    handler.sendMessage(message);
+                }
+            }).start();
 
             return view;
         }
