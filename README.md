@@ -1,0 +1,6 @@
+# BITUnionforAndroid
+BITUnion是一个基于北京理工大学校内FTP联盟论坛开发的Android客户端。北理FTP联盟论坛为北理工校内目前最为活跃的论坛之一。
+
+由于论坛开放了相应的API接口，使得本项目得以进行。
+
+在项目的开发过程中参考了Wuhao Ouyang的BUApp对论坛功能的实现。在此非常感谢Wuhao Ouyang大神的开源，让本人受益良多。
