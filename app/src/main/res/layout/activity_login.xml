@@ -74,18 +74,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
-                android:gravity="right"
-                android:paddingTop="10dp" >
+                android:gravity="left"
+                android:paddingTop="20dp" >
 
-                <Button
-                    android:id="@+id/sign_in_button"
+                <CheckBox
+                    android:id="@+id/remember_pass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="登录"/>
+                    android:paddingRight="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="记住密码"
+                    android:paddingRight="0dp"/>
+
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="登录"/>
     </LinearLayout>
 </LinearLayout>

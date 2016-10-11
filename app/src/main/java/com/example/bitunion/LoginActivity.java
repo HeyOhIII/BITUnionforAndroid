@@ -2,13 +2,16 @@ package com.example.bitunion;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -30,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mUsernameView;
     private EditText mPasswordView;
+    private CheckBox mRemmberPass;
     private RadioGroup netGroup;
     private Button signIn;
     private ProgressDialog progressDialog = null;
@@ -43,9 +47,19 @@ public class LoginActivity extends AppCompatActivity {
 //        getSupportActionBar().setTitle("登录");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         readConfig();
         mUsernameView = (EditText)findViewById(R.id.username);
         mPasswordView = (EditText)findViewById(R.id.password);
+        mRemmberPass = (CheckBox) findViewById(R.id.remember_pass);
+        boolean isRemember = pref.getBoolean("remember_password", false);
+        if(isRemember){
+            String mUsername = pref.getString("username", "");
+            String mPassword = pref.getString("password", "");
+            mUsernameView.setText(mUsername);
+            mPasswordView.setText(mPassword);
+            mRemmberPass.setChecked(true);
+        }
 
         netGroup = (RadioGroup)findViewById(R.id.radioGroup);
         netGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -77,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsername = mUsernameView.getText().toString();
         mPassword = mPasswordView.getText().toString();
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean cancle = false;
         View focusView = null;
@@ -103,6 +118,17 @@ public class LoginActivity extends AppCompatActivity {
                     if (BUApi.getResult(response) == BUApi.Result.SUCCESS) {
                         //ToastUtil.showToast(R.string.login_success);
                         ToastUtil.showToast("登录成功");
+
+                        SharedPreferences.Editor editor = pref.edit();
+                        if(mRemmberPass.isChecked()){
+                            editor.putBoolean("remember_password", true);
+                            editor.putString("username", mUsername);
+                            editor.putString("password", mPassword);
+                        }else {
+                            editor.clear();
+                        }
+                        editor.commit();
+
                         saveConfig();
                         setResult(RESULT_OK, null);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
