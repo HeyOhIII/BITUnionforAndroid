@@ -286,6 +286,7 @@ public class PostFragment extends Fragment implements Updateable, AbsListView.On
     private String createHtmlCode(int position) {
 
         StringBuilder content = new StringBuilder("<!DOCTYPE ><html><body>");
+//        StringBuilder content = new StringBuilder("<!DOCTYPE ><html><head><style type=\"text/css\"></style></head><body>");
 
         BUPost postItem = postlist.get(position);
         content.append(postItem.getHtmlLayout(position));

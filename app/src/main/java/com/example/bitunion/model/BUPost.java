@@ -193,10 +193,12 @@ public class BUPost implements Parcelable {
             BUQuote q = new BUQuote(m.group(1));
             quotes.add(q);
             message = message.replace(m.group(0),
-                    "<table width='90%' style='border:1px dashed #698fc7;font-size:"
+//                    "<table width='90%' style='border:1px dashed #698fc7;font-size:"
+                    "<table width='90%' style='border:1px dashed #698fc7;font-style:oblique;color:#CCCCCC;font-size:"
                             + BUApp.settings.contenttextsize
                             + "px;margin:5px;'><tr><td>" + q.toString()
-                            + "</td></tr></table>");
+                            + "</td></tr></table>"
+                            + "<br><br>");
 
             m = p.matcher(message);
         }
